@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECHO</title>
+  <style>
+    :root {
+      --bg: #F5F5F5;
+      --stroke: #e0e0e0;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --panel: #fafafa;
+      --radius-xl: 4px;
+      --radius-lg: 4px;
+      --radius-md: 4px;
+      --max: 1360px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #F5F5F5;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      scroll-behavior: smooth;
+    }
+    body { padding: 32px 20px 80px; }
+    .deck_shell { max-width: var(--max); margin: 0 auto; }
+    .slide {
+      position: relative; min-height: 100vh; padding: 40px; margin-bottom: 28px;
+      border: 1px solid var(--stroke); border-radius: var(--radius-xl);
+      background: #F5F5F5;
+      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .slide_header, .slide_footer, .slide_body { position: relative; z-index: 1; }
+    .slide_header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
+    .slide_label { font-size: 13px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+    .slide_brand { font-size: 13px; color: var(--muted); letter-spacing: 0.08em; }
+    h1, h2 { line-height: 0.95; letter-spacing: -0.04em; color: var(--text); }
+    h1 { font-size: clamp(54px, 7vw, 92px); max-width: 10ch; }
+    h2 { font-size: clamp(34px, 4.3vw, 62px); max-width: 20ch; }
+    .subtitle { max-width: 760px; font-size: clamp(18px, 2vw, 24px); color: var(--muted); line-height: 1.5; margin-top: 16px; }
+    .hero_grid, .grid_2, .grid_3, .grid_4 { display: grid; gap: 18px; }
+    .hero_grid { grid-template-columns: 1.15fr 0.85fr; align-items: end; }
+    .grid_2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid_3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid_4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card { background: var(--panel); border: 1px solid var(--stroke); border-radius: var(--radius-lg); padding: 22px; }
+    .card_strong { background: #f5f5f5; border: 1px solid #d0d0d0; }
+    .card_title { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; }
+    .card h3 { font-size: 24px; line-height: 1.15; margin-bottom: 10px; letter-spacing: -0.03em; color: var(--text); }
+    .card p, .body_copy, .list li { color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .metric_wrap { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 22px; }
+    .metric { min-width: 180px; padding: 18px 20px; border-radius: 4px; border: 1px solid var(--stroke); background: var(--panel); }
+    .metric_value { font-size: clamp(30px, 4vw, 54px); line-height: 0.95; letter-spacing: -0.05em; margin-bottom: 8px; color: var(--text); }
+    .metric_label { color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; }
+    .list { display: grid; gap: 12px; margin-top: 16px; list-style: none; }
+    .list li { display: flex; gap: 12px; align-items: flex-start; }
+    .bullet { width: 10px; height: 10px; border-radius: 999px; margin-top: 9px; background: var(--text); flex: 0 0 auto; }
+    .timeline { display: grid; gap: 18px; margin-top: 12px; }
+    .timeline_item { display: grid; grid-template-columns: 56px 1fr; gap: 16px; align-items: start; }
+    .timeline_no { width: 56px; height: 56px; border-radius: 4px; display: grid; place-items: center; background: var(--panel); border: 1px solid var(--stroke); font-weight: 700; color: var(--text); font-size: 18px; }
+    .compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .compare_col { border: 1px solid var(--stroke); border-radius: var(--radius-lg); overflow: hidden; background: var(--panel); }
+    .compare_head { padding: 18px 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); border-bottom: 1px solid var(--stroke); }
+    .compare_head.before { background: #f0f0f0; }
+    .compare_head.after { background: #e8e8e8; }
+    .compare_body { padding: 20px; display: grid; gap: 14px; }
+    .compare_step { padding: 14px 16px; border-radius: 4px; border: 1px solid var(--stroke); background: #fff; color: var(--text); }
+    .footer_note { margin-top: 28px; color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .accent_line { width: 92px; height: 2px; margin: 18px 0 4px; background: #1a1a1a; }
+    .quote_box { padding: 26px; border-radius: 4px; background: var(--panel); border: 1px solid var(--stroke); }
+    .quote_box p { font-size: clamp(22px, 3vw, 34px); line-height: 1.25; color: var(--text); letter-spacing: -0.03em; }
+    .pill_row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .pill { padding: 10px 14px; border-radius: 4px; border: 1px solid var(--stroke); background: var(--panel); color: var(--muted); font-size: 14px; }
+    .toc_section {
+      padding: 40px; margin-bottom: 28px; position: relative;
+      border: 1px solid var(--stroke); border-radius: var(--radius-xl);
+      background: #F5F5F5;
+    }
+    .toc_accent { width: 60%; max-width: 400px; height: 2px; background: #1a1a1a; margin-bottom: 32px; }
+    .toc_left { display: flex; flex-direction: column; }
+    .toc_date_label { font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 4px; }
+    .toc_date_value { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
+    .toc_heading { font-size: clamp(48px, 8vw, 96px); line-height: 0.95; letter-spacing: -0.04em; font-weight: 700; color: var(--text); margin-bottom: 0; }
+    .toc_list { display: flex; flex-direction: column; gap: 12px; position: relative; list-style: none; }
+    .toc_list a {
+      text-decoration: none; color: var(--text); font-size: 16px; line-height: 1.4;
+      transition: color 0.2s ease;
+    }
+    .toc_list a:hover { color: var(--muted); text-decoration: underline; }
+    .toc_list { padding-left: 1.75em; }
+    .toc_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    @media (max-width: 640px) {
+      .toc_section { padding: 26px 20px; }
+      .toc_grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 1100px) {
+      .hero_grid, .grid_2, .grid_3, .grid_4, .compare, .mini_grid { grid-template-columns: 1fr; }
+      .slide { min-height: auto; }
+    }
+    @media (max-width: 640px) {
+      body { padding: 18px 12px 60px; }
+      .slide { padding: 26px 20px; border-radius: 4px; }
+      .slide_header { flex-direction: column; align-items: flex-start; }
+      .timeline_item { grid-template-columns: 1fr; }
+      .timeline_no { width: 48px; height: 48px; }
+    }
+    .chart_container { position: relative; height: 240px; max-width: 100%; margin-top: 20px; }
+    .chart_container--tall { height: 280px; }
+    .chart_container canvas { max-height: 100%; width: 100% !important; }
+    .flow_diagram { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .flow_node { padding: 12px 18px; border: 1px solid var(--stroke); border-radius: 4px; background: var(--panel); font-size: 14px; color: var(--text); white-space: nowrap; }
+    .flow_arrow { color: var(--muted); font-size: 18px; }
+    .decay_line { margin-top: 20px; height: 120px; display: flex; align-items: flex-end; gap: 8px; }
+    .decay_bar { flex: 1; background: var(--stroke); border-radius: 4px 4px 0 0; min-height: 20px; }
+    .decay_bar.high { background: var(--text); height: 90%; }
+    .decay_bar.low { background: var(--muted); height: 25%; }
+    .design_two_col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; margin-top: 24px; }
+    .design_two_col .design_heading { font-size: clamp(28px, 3.5vw, 42px); line-height: 1.15; letter-spacing: -0.03em; color: var(--text); margin-bottom: 28px; }
+    .design_two_col .design_section_label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 14px; }
+    .design_two_col .design_item { margin-bottom: 20px; }
+    .design_two_col .design_item strong { display: block; font-size: 16px; color: var(--text); margin-bottom: 4px; }
+    .design_two_col .design_item span { font-size: 15px; color: var(--muted); line-height: 1.5; }
+    .design_two_col .design_why { font-size: 17px; color: var(--text); line-height: 1.6; }
+    @media (max-width: 900px) { .design_two_col { grid-template-columns: 1fr; } }
+    .slide_center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; }
+    .slide_center .slide_center_heading { font-size: clamp(64px, 10vw, 120px); font-weight: 700; letter-spacing: -0.04em; color: var(--text); line-height: 1; }
+  </style>
+</head>
+<body>
+  <div class="deck_shell">
+    <section class="slide" id="slide_01">
+      <div>
+        <div class="slide_header"><span class="slide_label">001 CONTEXT</span><span class="slide_brand">ECHO</span></div>
+        <div class="hero_grid">
+          <div>
+            <div class="accent_line"></div>
+            <h1>ECHO</h1>
+            <p class="subtitle" style="font-size: clamp(20px, 2.2vw, 28px); color: var(--text); margin-top: 12px;"><strong>Instant Portfolio Clarity from a CAS</strong></p>
+            <p class="subtitle">A pre call intelligence tool that converts a Consolidated Account Statement into an advisor ready portfolio briefing in under a minute.</p>
+            <p class="subtitle" style="margin-top: 12px;">Built for wealth advisors who need to understand a portfolio before speaking with a client.</p>
+            <div class="metric_wrap">
+              <div class="metric"><div class="metric_value">Under 1 min</div><div class="metric_label">Portfolio Briefing</div></div>
+            </div>
+          </div>
+          <div class="quote_box"><p>From CAS to conversation in under a minute.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="toc_section" id="toc">
+      <div class="toc_grid">
+        <div class="toc_left">
+          <div class="toc_accent"></div>
+          <p class="toc_date_label">Date</p>
+          <p class="toc_date_value">7 Feb 2026</p>
+          <h2 class="toc_heading">Agenda</h2>
+        </div>
+        <ol class="toc_list" start="1">
+          <li><a href="#slide_01">ECHO — Instant Portfolio Clarity from a CAS</a></li>
+          <li><a href="#slide_02">Origin of the Idea → Operational Impact</a></li>
+          <li><a href="#slide_03">The pattern</a></li>
+          <li><a href="#slide_04">Current Workflow</a></li>
+          <li><a href="#slide_05">The Hidden Cost</a></li>
+          <li><a href="#slide_06">The Insight</a></li>
+          <li><a href="#slide_07">Introducing ECHO</a></li>
+          <li><a href="#slide_08">Demo</a></li>
+          <li><a href="#slide_09">What ECHO Extracts</a></li>
+          <li><a href="#slide_10">Why Existing Systems Fall Short</a></li>
+          <li><a href="#slide_11">Portfolio Intelligence</a></li>
+          <li><a href="#slide_12">From Insight to Advice</a></li>
+          <li><a href="#slide_13">Enabling Better Advisory Conversations</a></li>
+          <li><a href="#slide_14">The Real Value of ECHO</a></li>
+          <li><a href="#slide_15">Advisor Workflow Impact</a></li>
+          <li><a href="#slide_16">Design Philosophy</a></li>
+          <li><a href="#slide_17">Data Security</a></li>
+          <li><a href="#slide_18">Pilot Proposal</a></li>
+          <li><a href="#slide_19">Closing</a></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_02">
+      <div>
+        <div class="slide_header"><span class="slide_label">002 CREDIBILITY</span><span class="slide_brand">ECHO</span></div>
+        <h2>Origin of the Idea → Operational Impact</h2>
+        <p class="subtitle" style="margin-bottom: 24px;">The idea behind ECHO came from building financial decision workflows at <strong>Axitrust</strong> (surety bond underwriting). The pattern we saw there applies directly to wealth advisory.</p>
+        <div class="grid_2">
+          <div class="card">
+            <h3>Origin of the Idea</h3>
+            <p>Underwriters had to review financial statements and compliance documents before issuing bonds. The entire process was manual and slow.</p>
+          </div>
+          <div class="card">
+            <h3>The Underwriting Bottleneck</h3>
+            <p>Every request required full manual review. The team could complete <strong>only one assessment per day</strong>. The problem was not lack of data—it was <strong>how long it took to interpret that data</strong>.</p>
+          </div>
+          <div class="card">
+            <h3>The Solution We Built</h3>
+            <p>We created a <strong>benchmark scoring framework</strong> (1–10). Low scores rejected early; mid scores needed more docs; only strong applications reached human underwriters.</p>
+          </div>
+          <div class="card card_strong">
+            <h3>Operational Impact</h3>
+            <p>Throughput went from <strong>1</strong> to <strong>~20</strong> reviews per day. Key insight: <em>Financial professionals have the data but lack tools that help them interpret it quickly.</em></p>
+          </div>
+        </div>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-02"></canvas></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_03">
+      <div>
+        <div class="slide_header"><span class="slide_label">003 WEALTH ADVISORY</span><span class="slide_brand">ECHO</span></div>
+        <h2>The Same Pattern Exists in Wealth Management</h2>
+        <p class="subtitle">In wealth advisory, the same pattern appears when clients share a <strong>CAS report</strong>.</p>
+        <p class="subtitle" style="margin-top: 16px;">A Consolidated Account Statement contains the full investment history of a client.</p>
+        <p class="subtitle" style="margin-top: 16px;">However, understanding it quickly is difficult.</p>
+        <p class="subtitle" style="margin-top: 16px;">Advisors often need time to interpret the data before they can have a meaningful conversation with the client.</p>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-03"></canvas></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_04">
+      <div>
+        <div class="slide_header"><span class="slide_label">004 WORKFLOW</span><span class="slide_brand">ECHO</span></div>
+        <h2>Current Workflow</h2>
+        <p class="subtitle">Typical process today:</p>
+        <div class="flow_diagram" aria-hidden="true">
+          <span class="flow_node">Client sends CAS</span><span class="flow_arrow">→</span><span class="flow_node">Research team</span><span class="flow_arrow">→</span><span class="flow_node">1–2 days</span><span class="flow_arrow">→</span><span class="flow_node">Advisor engages</span>
+        </div>
+        <div class="timeline" style="margin-top: 24px;">
+          <div class="timeline_item"><div class="timeline_no">1</div><div class="card"><p>Client sends CAS report.</p></div></div>
+          <div class="timeline_item"><div class="timeline_no">2</div><div class="card"><p>Advisor forwards the report to internal research or analysis teams.</p></div></div>
+          <div class="timeline_item"><div class="timeline_no">3</div><div class="card"><p>The research team reviews holdings, performance, and allocation. The advisor receives insights after <strong>1 to 2 days</strong>.</p></div></div>
+          <div class="timeline_item"><div class="timeline_no">4</div><div class="card"><p>Only then does the advisor engage the client.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_05">
+      <div>
+        <div class="slide_header"><span class="slide_label">005 HIDDEN COST</span><span class="slide_brand">ECHO</span></div>
+        <h2>The Hidden Cost</h2>
+        <p class="subtitle">The moment a client sends a CAS is the moment they are most curious about their portfolio.</p>
+        <p class="subtitle" style="margin-top: 16px;">But by the time analysis is completed, that moment of engagement has already passed.</p>
+        <p class="subtitle" style="margin-top: 24px;">This delay creates three problems.</p>
+        <ul class="list">
+          <li><span class="bullet"></span><span>Loss of client momentum</span></li>
+          <li><span class="bullet"></span><span>Delayed advisory conversations</span></li>
+          <li><span class="bullet"></span><span>Reduced opportunity to provide timely guidance</span></li>
+        </ul>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-05"></canvas></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_06">
+      <div>
+        <div class="slide_header"><span class="slide_label">006 INSIGHT</span><span class="slide_brand">ECHO</span></div>
+        <h2>The Insight</h2>
+        <p class="subtitle">What if advisors could understand the portfolio <strong>before the call begins</strong>?</p>
+        <div class="quote_box" style="margin-top: 24px;">
+          <p>If advisors could instantly interpret a CAS report, they would enter client conversations with clarity and confidence.</p>
+        </div>
+        <p class="subtitle" style="margin-top: 24px;">Instead of spending time analyzing the portfolio, they could immediately focus on advice.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_07">
+      <div>
+        <div class="slide_header"><span class="slide_label">007 PRODUCT</span><span class="slide_brand">ECHO</span></div>
+        <h2>Introducing ECHO</h2>
+        <p class="subtitle">ECHO converts any CAS report into a structured portfolio briefing in under a minute.</p>
+        <div class="flow_diagram" aria-hidden="true">
+          <span class="flow_node">Upload CAS</span><span class="flow_arrow">→</span><span class="flow_node">Analyze</span><span class="flow_arrow">→</span><span class="flow_node">Insights</span><span class="flow_arrow">→</span><span class="flow_node">Prepared</span>
+        </div>
+        <div class="timeline" style="margin-top: 24px;">
+          <div class="timeline_item"><div class="timeline_no">1</div><div class="card"><p>Upload the CAS.</p></div></div>
+          <div class="timeline_item"><div class="timeline_no">2</div><div class="card"><p>ECHO analyzes the portfolio.</p></div></div>
+          <div class="timeline_item"><div class="timeline_no">3</div><div class="card"><p>Key insights are generated instantly.</p></div></div>
+          <div class="timeline_item"><div class="timeline_no">4</div><div class="card card_strong"><p>The advisor enters the call prepared.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_08">
+      <div>
+        <div class="slide_header"><span class="slide_label">008 DEMO</span><span class="slide_brand">ECHO</span></div>
+        <div class="slide_center">
+          <h2 class="slide_center_heading">Demo</h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_09">
+      <div>
+        <div class="slide_header"><span class="slide_label">009 EXTRACTS</span><span class="slide_brand">ECHO</span></div>
+        <h2>What ECHO Extracts</h2>
+        <p class="subtitle">From a single CAS report, ECHO generates:</p>
+        <div class="chart_container chart_container--tall" aria-hidden="true"><canvas id="chart-08"></canvas></div>
+        <ul class="list" style="margin-top: 20px;">
+          <li><span class="bullet"></span><span>Portfolio allocation across asset classes</span></li>
+          <li><span class="bullet"></span><span>Fund level investment history</span></li>
+          <li><span class="bullet"></span><span>Cash flow timeline of investments and withdrawals</span></li>
+          <li><span class="bullet"></span><span>Performance insights including XIRR</span></li>
+          <li><span class="bullet"></span><span>Conversation ready talking points for advisors</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 24px;">This transforms a raw statement into an <strong>advisor ready briefing</strong>.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_10">
+      <div>
+        <div class="slide_header"><span class="slide_label">010 DIFFERENTIATION</span><span class="slide_brand">ECHO</span></div>
+        <h2>Why Existing Systems Fall Short</h2>
+        <p class="subtitle">Many wealth systems rely on integrations with depositories like Central Depository Services Limited and National Securities Depository Limited.</p>
+        <div class="compare" style="margin-top: 24px;">
+          <div class="compare_col">
+            <div class="compare_head before">Typical systems show</div>
+            <div class="compare_body">
+              <div class="compare_step">Current holdings</div>
+              <div class="compare_step">Portfolio value</div>
+              <div class="compare_step">Basic allocation views</div>
+            </div>
+          </div>
+          <div class="compare_col">
+            <div class="compare_head after">What they rarely have</div>
+            <div class="compare_body">
+              <div class="compare_step">Complete investment timeline</div>
+              <div class="compare_step">Accurate Extended Internal Rate of Return (XIRR)</div>
+            </div>
+          </div>
+        </div>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-09"></canvas></div>
+        <p class="subtitle" style="margin-top: 24px;">ECHO focuses on rebuilding that missing context.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_11">
+      <div>
+        <div class="slide_header"><span class="slide_label">011 INTELLIGENCE</span><span class="slide_brand">ECHO</span></div>
+        <h2>Portfolio Intelligence</h2>
+        <p class="subtitle">ECHO helps advisors understand not just the portfolio, but the story behind it.</p>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-10"></canvas></div>
+        <ul class="list" style="margin-top: 24px;">
+          <li><span class="bullet"></span><span>When did the investor enter each fund?</span></li>
+          <li><span class="bullet"></span><span>How much capital was deployed?</span></li>
+          <li><span class="bullet"></span><span>When were partial exits made?</span></li>
+          <li><span class="bullet"></span><span>What is the real return on the investor's money?</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 24px;">These insights help advisors guide the conversation with confidence.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_12">
+      <div>
+        <div class="slide_header"><span class="slide_label">012 INSIGHT TO ADVICE</span><span class="slide_brand">ECHO</span></div>
+        <h2>From Insight to Advice</h2>
+        <p class="subtitle">ECHO does more than summarize a portfolio.</p>
+        <p class="subtitle" style="margin-top: 16px;">It helps advisors move quickly from analysis to advisory conversation.</p>
+        <p class="subtitle" style="margin-top: 24px;">Once the portfolio is understood instantly, advisors can identify:</p>
+        <ul class="list" style="margin-top: 16px;">
+          <li><span class="bullet"></span><span>Portfolio concentration risks</span></li>
+          <li><span class="bullet"></span><span>Allocation imbalance across asset classes</span></li>
+          <li><span class="bullet"></span><span>Funds that have underperformed benchmarks</span></li>
+          <li><span class="bullet"></span><span>Opportunities to rebalance the portfolio</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 24px;">This allows the advisor to guide the conversation toward clear next steps.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_13">
+      <div>
+        <div class="slide_header"><span class="slide_label">013 ADVISORY</span><span class="slide_brand">ECHO</span></div>
+        <h2>Enabling Better Advisory Conversations</h2>
+        <p class="subtitle">Every wealth firm has its own focus funds, model portfolios, and recommended strategies.</p>
+        <p class="subtitle" style="margin-top: 16px;">When advisors instantly understand the client portfolio, they can quickly identify where the client portfolio deviates from those strategies.</p>
+        <p class="subtitle" style="margin-top: 24px;">This enables advisors to:</p>
+        <ul class="list" style="margin-top: 16px;">
+          <li><span class="bullet"></span><span>Position recommended funds more effectively</span></li>
+          <li><span class="bullet"></span><span>Suggest rebalancing opportunities</span></li>
+          <li><span class="bullet"></span><span>Identify diversification gaps</span></li>
+          <li><span class="bullet"></span><span>Guide clients toward the firm's investment strategy</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 24px;">Instead of spending the call explaining the portfolio, the advisor can focus on advice and strategy.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_14">
+      <div>
+        <div class="slide_header"><span class="slide_label">014 VALUE</span><span class="slide_brand">ECHO</span></div>
+        <h2>The Real Value of ECHO</h2>
+        <p class="subtitle">ECHO compresses the time between:</p>
+        <ul class="list" style="margin-top: 12px;">
+          <li><span class="bullet"></span><span>Receiving a portfolio statement</span></li>
+          <li><span class="bullet"></span><span>Understanding the portfolio</span></li>
+          <li><span class="bullet"></span><span>Advising the client</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 24px;"><strong>From days to minutes.</strong></p>
+        <p class="subtitle" style="margin-top: 24px;">When advisors enter the conversation with immediate clarity, three things improve:</p>
+        <ul class="list" style="margin-top: 16px;">
+          <li><span class="bullet"></span><span>Client trust</span></li>
+          <li><span class="bullet"></span><span>Quality of advice</span></li>
+          <li><span class="bullet"></span><span>Depth of portfolio discussions</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 24px;">ECHO helps advisors have better client conversations — not just faster analysis.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_15">
+      <div>
+        <div class="slide_header"><span class="slide_label">015 VALUE</span><span class="slide_brand">ECHO</span></div>
+        <h2>Advisor Workflow Impact</h2>
+        <div class="compare" style="margin-top: 24px;">
+          <div class="compare_col">
+            <div class="compare_head before">Before ECHO</div>
+            <div class="compare_body">
+              <div class="compare_step">CAS received</div>
+              <div class="compare_step">Sent for analysis</div>
+              <div class="compare_step">1 to 2 day delay</div>
+              <div class="compare_step">Advisor speaks to client later</div>
+            </div>
+          </div>
+          <div class="compare_col">
+            <div class="compare_head after">After ECHO</div>
+            <div class="compare_body">
+              <div class="compare_step">CAS received</div>
+              <div class="compare_step">Uploaded to ECHO</div>
+              <div class="compare_step">Portfolio briefing generated instantly</div>
+              <div class="compare_step">Advisor enters call prepared</div>
+            </div>
+          </div>
+        </div>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-11"></canvas></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_16">
+      <div>
+        <div class="slide_header"><span class="slide_label">016 DESIGN</span><span class="slide_brand">ECHO</span></div>
+        <h2>Design Philosophy</h2>
+        <div class="design_two_col">
+          <div>
+            <p class="design_heading">Focus means choosing what <strong>not</strong> to build.</p>
+            <p class="design_section_label">What we focus on</p>
+            <div class="design_item"><strong>Speed first</strong><span>Insights must appear within seconds.</span></div>
+            <div class="design_item"><strong>Advisor ready outputs</strong><span>Information must support conversations, not just analysis.</span></div>
+            <div class="design_item"><strong>Minimal friction</strong><span>Upload the CAS and receive insights immediately.</span></div>
+          </div>
+          <div>
+            <p class="design_section_label">Why we build this way</p>
+            <p class="design_why">Our goal is to strengthen the advisor's foundation — making portfolio understanding faster, smarter, and more reliable. Once that clarity is in place, advisors can layer on deeper conversations and strategy instead of spending the call explaining the portfolio.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_17">
+      <div>
+        <div class="slide_header"><span class="slide_label">017 SECURITY</span><span class="slide_brand">ECHO</span></div>
+        <h2>Data Security</h2>
+        <p class="subtitle">ECHO is designed for regulated financial environments.</p>
+        <div class="flow_diagram" aria-hidden="true">
+          <span class="flow_node">Session</span><span class="flow_arrow">→</span><span class="flow_node">Process</span><span class="flow_arrow">→</span><span class="flow_node">No storage</span><span class="flow_arrow">→</span><span class="flow_node">Data disappears</span>
+        </div>
+        <ul class="list" style="margin-top: 24px;">
+          <li><span class="bullet"></span><span>Portfolio data is processed only during the active session.</span></li>
+          <li><span class="bullet"></span><span>No portfolio data is written to long term storage.</span></li>
+          <li><span class="bullet"></span><span>Once the session ends, the data disappears.</span></li>
+          <li><span class="bullet"></span><span>This approach minimizes compliance concerns for wealth firms.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_18">
+      <div>
+        <div class="slide_header"><span class="slide_label">018 PILOT</span><span class="slide_brand">ECHO</span></div>
+        <h2>Pilot Proposal</h2>
+        <p class="subtitle">Suggested pilot structure.</p>
+        <div class="chart_container" aria-hidden="true"><canvas id="chart-14"></canvas></div>
+        <div class="metric_wrap" style="margin-top: 24px;">
+          <div class="metric"><div class="metric_value">20–30</div><div class="metric_label">Advisors</div></div>
+          <div class="metric"><div class="metric_value">4–8 weeks</div><div class="metric_label">Evaluation period</div></div>
+        </div>
+        <p class="subtitle" style="margin-top: 24px;">During the pilot we measure:</p>
+        <ul class="list">
+          <li><span class="bullet"></span><span>Advisor preparation quality</span></li>
+          <li><span class="bullet"></span><span>Speed of portfolio understanding</span></li>
+          <li><span class="bullet"></span><span>Impact on client conversations</span></li>
+        </ul>
+        <p class="subtitle" style="margin-top: 20px;">The goal is to determine whether ECHO improves advisor readiness before client calls.</p>
+        <div class="quote_box" style="margin-top: 24px;">
+          <p>The goal of the pilot is not to replace your current process. The goal is to test whether this improves advisor readiness before client calls.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide_19">
+      <div>
+        <div class="slide_header"><span class="slide_label">019 CLOSING</span><span class="slide_brand">ECHO</span></div>
+        <h2>Closing</h2>
+        <p class="subtitle">CAS reports already exist.</p>
+        <p class="subtitle" style="margin-top: 16px;">ECHO simply transforms them into <strong>instant portfolio intelligence</strong>.</p>
+        <div class="flow_diagram" style="margin-top: 24px;" aria-hidden="true">
+          <span class="flow_node">Statement</span><span class="flow_arrow">→</span><span class="flow_node">Insight</span><span class="flow_arrow">→</span><span class="flow_node">Conversation</span>
+        </div>
+        <div class="quote_box" style="margin-top: 32px;">
+          <p>From statement to insight to conversation in under a minute.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var palette = { text: '#1a1a1a', muted: '#6b6b6b', stroke: '#e0e0e0', bg: '#fafafa' };
+      var defaultOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: palette.text } } } };
+      function mergeOptions(opts, defaultOpts) {
+        defaultOpts = defaultOpts || defaultOptions;
+        var o = {};
+        for (var k in defaultOpts) o[k] = defaultOpts[k];
+        if (opts) for (var k in opts) {
+          if (typeof opts[k] === 'object' && opts[k] !== null && !Array.isArray(opts[k]) && defaultOpts[k] && typeof defaultOpts[k] === 'object' && !Array.isArray(defaultOpts[k]))
+            o[k] = mergeOptions(opts[k], defaultOpts[k]);
+          else
+            o[k] = opts[k];
+        }
+        return o;
+      }
+      function makeChart(id, config) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var ctx = el.getContext('2d');
+        new Chart(ctx, { type: config.type, data: config.data, options: mergeOptions(config.options) });
+      }
+      makeChart('chart-02', { type: 'bar', data: { labels: ['Before', 'After'], datasets: [{ label: 'Reviews per day', data: [1, 20], backgroundColor: [palette.muted, palette.text] }] }, options: { scales: { y: { beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-03', { type: 'bar', data: { labels: ['Data available', 'Time to interpret'], datasets: [{ label: 'Bottleneck', data: [100, 20], backgroundColor: [palette.stroke, palette.text] }] }, options: { indexAxis: 'y', scales: { x: { max: 100, ticks: { color: palette.muted } }, y: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-05', { type: 'line', data: { labels: ['CAS sent', 'Day 1', 'Analysis ready'], datasets: [{ label: 'Client engagement', data: [95, 60, 30], borderColor: palette.text, backgroundColor: 'transparent', fill: false, tension: 0.3 }] }, options: { scales: { y: { min: 0, max: 100, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-08', { type: 'doughnut', data: { labels: ['Allocation', 'History', 'Cash flow', 'XIRR', 'Talking points'], datasets: [{ data: [20, 20, 20, 20, 20], backgroundColor: [palette.text, palette.muted, palette.stroke, '#4a4a4a', '#9a9a9a'] }] }, options: { plugins: { legend: { position: 'right' } } } });
+      makeChart('chart-09', { type: 'bar', data: { labels: ['Current view', 'Timeline', 'XIRR'], datasets: [{ label: 'Typical systems', data: [100, 20, 10], backgroundColor: palette.muted }, { label: 'ECHO', data: [100, 100, 100], backgroundColor: palette.text }] }, options: { scales: { y: { max: 100, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-10', { type: 'bar', data: { labels: ['When entered', 'Capital', 'Exits', 'Real return'], datasets: [{ label: 'Story behind portfolio', data: [100, 100, 100, 100], backgroundColor: palette.text }] }, options: { indexAxis: 'y', scales: { x: { max: 100, display: false }, y: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-11', { type: 'bar', data: { labels: ['Before ECHO', 'After ECHO'], datasets: [{ label: 'Time to briefing (min)', data: [1440, 1], backgroundColor: [palette.muted, palette.text] }] }, options: { scales: { y: { ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-14', { type: 'bar', data: { labels: ['Advisors', 'Weeks'], datasets: [{ label: 'Pilot scope', data: [25, 6], backgroundColor: [palette.text, palette.muted] }] }, options: { scales: { y: { beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+    });
+  </script>
+</body>
+</html>
