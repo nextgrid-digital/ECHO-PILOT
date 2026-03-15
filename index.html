@@ -11,6 +11,9 @@
       --text: #1a1a1a;
       --muted: #6b6b6b;
       --panel: #fafafa;
+      --accent: #c45c5c;
+      --accent-soft: #f8e8e8;
+      --accent-muted: #a85c5c;
       --radius-xl: 4px;
       --radius-lg: 4px;
       --radius-md: 4px;
@@ -32,27 +35,32 @@
       overflow: hidden;
       display: flex; flex-direction: column; justify-content: space-between;
     }
+    .slide:not(.slide--title)::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+      background: var(--accent); border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+      z-index: 0;
+    }
     .slide_header, .slide_footer, .slide_body { position: relative; z-index: 1; }
     .slide_header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
     .slide_label { font-size: 13px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
     .slide_brand { font-size: 13px; color: var(--muted); letter-spacing: 0.08em; }
     h1, h2 { line-height: 0.95; letter-spacing: -0.04em; color: var(--text); }
     h1 { font-size: clamp(54px, 7vw, 92px); max-width: 10ch; }
-    h2 { font-size: clamp(34px, 4.3vw, 62px); max-width: 20ch; }
-    .subtitle { max-width: 760px; font-size: clamp(18px, 2vw, 24px); color: var(--muted); line-height: 1.5; margin-top: 16px; }
+    h2 { font-size: clamp(34px, 4.3vw, 52px); max-width: 20ch; }
+    .subtitle { max-width: 760px; font-size: clamp(14px, 1.6vw, 18px); color: var(--muted); line-height: 1.5; margin-top: 16px; }
     .hero_grid, .grid_2, .grid_3, .grid_4 { display: grid; gap: 18px; }
     .hero_grid { grid-template-columns: 1.15fr 0.85fr; align-items: end; }
     .grid_2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid_3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid_4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .card { background: var(--panel); border: 1px solid var(--stroke); border-radius: var(--radius-lg); padding: 22px; }
-    .card_strong { background: #f5f5f5; border: 1px solid #d0d0d0; }
+    .card_strong { background: var(--accent-soft); border: 1px solid var(--accent); border-left: 4px solid var(--accent); }
     .card_title { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; }
-    .card h3 { font-size: 24px; line-height: 1.15; margin-bottom: 10px; letter-spacing: -0.03em; color: var(--text); }
-    .card p, .body_copy, .list li { color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .card h3 { font-size: 18px; line-height: 1.15; margin-bottom: 10px; letter-spacing: -0.03em; color: var(--text); }
+    .card p, .body_copy, .list li { color: var(--muted); font-size: 14px; line-height: 1.55; }
     .metric_wrap { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 22px; }
     .metric { min-width: 180px; padding: 18px 20px; border-radius: 4px; border: 1px solid var(--stroke); background: var(--panel); }
-    .metric_value { font-size: clamp(30px, 4vw, 54px); line-height: 0.95; letter-spacing: -0.05em; margin-bottom: 8px; color: var(--text); }
+    .metric_value { font-size: clamp(30px, 4vw, 54px); line-height: 0.95; letter-spacing: -0.05em; margin-bottom: 8px; color: var(--accent-muted); }
     .metric_label { color: var(--muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; }
     .list { display: grid; gap: 12px; margin-top: 16px; list-style: none; }
     .list li { display: flex; gap: 12px; align-items: flex-start; }
@@ -64,13 +72,13 @@
     .compare_col { border: 1px solid var(--stroke); border-radius: var(--radius-lg); overflow: hidden; background: var(--panel); }
     .compare_head { padding: 18px 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); border-bottom: 1px solid var(--stroke); }
     .compare_head.before { background: #f0f0f0; }
-    .compare_head.after { background: #e8e8e8; }
+    .compare_head.after { background: var(--accent-soft); }
     .compare_body { padding: 20px; display: grid; gap: 14px; }
     .compare_step { padding: 14px 16px; border-radius: 4px; border: 1px solid var(--stroke); background: #fff; color: var(--text); }
     .footer_note { margin-top: 28px; color: var(--muted); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; }
     .accent_line { width: 92px; height: 2px; margin: 18px 0 4px; background: #1a1a1a; }
-    .quote_box { padding: 26px; border-radius: 4px; background: var(--panel); border: 1px solid var(--stroke); }
-    .quote_box p { font-size: clamp(22px, 3vw, 34px); line-height: 1.25; color: var(--text); letter-spacing: -0.03em; }
+    .quote_box { padding: 26px; border-radius: 4px; background: var(--accent-soft); border: 1px solid var(--stroke); border-left: 4px solid var(--accent); }
+    .quote_box p { font-size: clamp(18px, 2.2vw, 26px); line-height: 1.25; color: var(--text); letter-spacing: -0.03em; }
     .pill_row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
     .pill { padding: 10px 14px; border-radius: 4px; border: 1px solid var(--stroke); background: var(--panel); color: var(--muted); font-size: 14px; }
     .toc_section {
@@ -78,7 +86,7 @@
       border: 1px solid var(--stroke); border-radius: var(--radius-xl);
       background: #F5F5F5;
     }
-    .toc_accent { width: 60%; max-width: 400px; height: 2px; background: #1a1a1a; margin-bottom: 32px; }
+    .toc_accent { width: 60%; max-width: 400px; height: 2px; background: var(--accent); margin-bottom: 32px; }
     .toc_left { display: flex; flex-direction: column; }
     .toc_date_label { font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 4px; }
     .toc_date_value { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
@@ -88,9 +96,9 @@
       text-decoration: none; color: var(--text); font-size: 16px; line-height: 1.4;
       transition: color 0.2s ease;
     }
-    .toc_list a:hover { color: var(--muted); text-decoration: underline; }
+    .toc_list a:hover { color: var(--accent-muted); text-decoration: underline; }
     .toc_list { padding-left: 1.75em; }
-    .toc_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .toc_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
     @media (max-width: 640px) {
       .toc_section { padding: 26px 20px; }
       .toc_grid { grid-template-columns: 1fr; }
@@ -109,6 +117,7 @@
     .chart_container { position: relative; height: 240px; max-width: 100%; margin-top: 20px; }
     .chart_container--tall { height: 280px; }
     .chart_container canvas { max-height: 100%; width: 100% !important; }
+    #chart-03 { height: 100% !important; }
     .flow_diagram { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
     .flow_node { padding: 12px 18px; border: 1px solid var(--stroke); border-radius: 4px; background: var(--panel); font-size: 14px; color: var(--text); white-space: nowrap; }
     .flow_arrow { color: var(--muted); font-size: 18px; }
@@ -122,30 +131,82 @@
     .design_two_col .design_item { margin-bottom: 20px; }
     .design_two_col .design_item strong { display: block; font-size: 16px; color: var(--text); margin-bottom: 4px; }
     .design_two_col .design_item span { font-size: 15px; color: var(--muted); line-height: 1.5; }
-    .design_two_col .design_why { font-size: 17px; color: var(--text); line-height: 1.6; }
+    .design_two_col .design_why { font-size: 15px; color: var(--text); line-height: 1.6; }
     @media (max-width: 900px) { .design_two_col { grid-template-columns: 1fr; } }
     .slide_center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; }
     .slide_center .slide_center_heading { font-size: clamp(64px, 10vw, 120px); font-weight: 700; letter-spacing: -0.04em; color: var(--text); line-height: 1; }
+    /* Title-slide style (reference: creative brief look) */
+    .slide--title {
+      background: #fff;
+      background: radial-gradient(ellipse 80% 70% at 50% 100%, #FFE5E5 0%, #FFF5F5 35%, #ffffff 70%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 320px 40px 32px;
+    }
+    .slide--title .title_slide_top { width: 100%; position: relative; margin-bottom: 0; min-height: 2em; }
+    .slide--title .title_slide_label {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #1a1a1a;
+    }
+    .slide--title .title_slide_badge {
+      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      padding: 8px 14px; border-radius: 8px; background: #EEEEEE;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.06em; color: #4a4a4a;
+    }
+    .slide--title .title_slide_center_wrapper { width: 100%; display: flex; justify-content: center; align-items: center; min-height: 0; }
+    .slide--title .title_slide_center { width: 100%; max-width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; text-align: center; }
+    .slide--title .title_slide_heading { font-size: clamp(52px, 9vw, 110px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.92; color: #1a1a1a; }
+    .slide--title .title_slide_subheading { font-size: clamp(18px, 2.2vw, 28px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.35; color: #1a1a1a; margin-top: 20px; text-align: center; }
+    .slide--title .title_slide_sub { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1a1a; margin-top: 24px; }
+    .slide--title .title_slide_footer {
+      width: 100%; display: flex; flex-direction: row; align-items: center; gap: 16px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #1a1a1a;
+    }
+    .slide--title .title_slide_footer_row { width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+    .slide--title .title_slide_footer_center { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1a1a; white-space: nowrap; }
+    .slide .title_slide_footer {
+      width: 100%; display: flex; flex-direction: row; align-items: center; gap: 16px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #1a1a1a; margin-top: auto; padding-top: 20px;
+    }
+    .slide .title_slide_footer_row { width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+    .slide .title_slide_footer_center { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #1a1a1a; white-space: nowrap; }
+    /* Layout variants */
+    .slide--split > div:first-child { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 40px; align-items: start; }
+    .slide--split > div:first-child > .slide_header { grid-column: 1 / -1; }
+    .slide--split .slide_split_left { display: flex; flex-direction: column; gap: 16px; }
+    .slide--split .slide_split_right { display: flex; flex-direction: column; gap: 20px; }
+    .slide--accent-strip .slide_header { position: relative; margin-bottom: 30px; }
+    .slide--accent-strip .slide_header::after { content: ''; position: absolute; left: -40px; right: -40px; bottom: -18px; height: 6px; background: var(--accent-soft); z-index: 0; }
+    .grid_asymmetric { display: grid; grid-template-columns: 1.2fr 0.9fr; grid-template-rows: auto auto; gap: 18px; }
+    .grid_asymmetric .card_hero { grid-row: 1 / -1; align-self: stretch; }
+    .flow_diagram--prominent { gap: 20px; margin-top: 28px; }
+    .flow_diagram--prominent .flow_node { padding: 16px 24px; font-size: 15px; }
+    .flow_diagram--prominent .flow_arrow { font-size: 22px; }
+    @media (max-width: 900px) {
+      .slide--split > div:first-child { grid-template-columns: 1fr; }
+      .grid_asymmetric { grid-template-columns: 1fr; }
+      .grid_asymmetric .card_hero { grid-row: auto; }
+    }
   </style>
 </head>
 <body>
   <div class="deck_shell">
-    <section class="slide" id="slide_01">
-      <div>
-        <div class="slide_header"><span class="slide_label">001 CONTEXT</span><span class="slide_brand">ECHO</span></div>
-        <div class="hero_grid">
-          <div>
-            <div class="accent_line"></div>
-            <h1>ECHO</h1>
-            <p class="subtitle" style="font-size: clamp(20px, 2.2vw, 28px); color: var(--text); margin-top: 12px;"><strong>Instant Portfolio Clarity from a CAS</strong></p>
-            <p class="subtitle">A pre call intelligence tool that converts a Consolidated Account Statement into an advisor ready portfolio briefing in under a minute.</p>
-            <p class="subtitle" style="margin-top: 12px;">Built for wealth advisors who need to understand a portfolio before speaking with a client.</p>
-            <div class="metric_wrap">
-              <div class="metric"><div class="metric_value">Under 1 min</div><div class="metric_label">Portfolio Briefing</div></div>
-            </div>
-          </div>
-          <div class="quote_box"><p>From CAS to conversation in under a minute.</p></div>
+    <section class="slide slide--title" id="slide_01">
+      <div class="title_slide_center_wrapper">
+        <div class="title_slide_center">
+          <h2 class="title_slide_heading">ECHO</h2>
+          <p class="title_slide_subheading">Instant Portfolio Clarity from a CAS</p>
         </div>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -186,7 +247,11 @@
         <div class="slide_header"><span class="slide_label">002 CREDIBILITY</span><span class="slide_brand">ECHO</span></div>
         <h2>Origin of the Idea → Operational Impact</h2>
         <p class="subtitle" style="margin-bottom: 24px;">The idea behind ECHO came from building financial decision workflows at <strong>Axitrust</strong> (surety bond underwriting). The pattern we saw there applies directly to wealth advisory.</p>
-        <div class="grid_2">
+        <div class="grid_asymmetric">
+          <div class="card card_strong card_hero">
+            <h3>Operational Impact</h3>
+            <p>Throughput went from <strong>1</strong> to <strong>~20</strong> reviews per day. Key insight: <em>Financial professionals have the data but lack tools that help them interpret it quickly.</em></p>
+          </div>
           <div class="card">
             <h3>Origin of the Idea</h3>
             <p>Underwriters had to review financial statements and compliance documents before issuing bonds. The entire process was manual and slow.</p>
@@ -199,24 +264,38 @@
             <h3>The Solution We Built</h3>
             <p>We created a <strong>benchmark scoring framework</strong> (1–10). Low scores rejected early; mid scores needed more docs; only strong applications reached human underwriters.</p>
           </div>
-          <div class="card card_strong">
-            <h3>Operational Impact</h3>
-            <p>Throughput went from <strong>1</strong> to <strong>~20</strong> reviews per day. Key insight: <em>Financial professionals have the data but lack tools that help them interpret it quickly.</em></p>
-          </div>
         </div>
         <div class="chart_container" aria-hidden="true"><canvas id="chart-02"></canvas></div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
-    <section class="slide" id="slide_03">
+    <section class="slide slide--split" id="slide_03">
       <div>
         <div class="slide_header"><span class="slide_label">003 WEALTH ADVISORY</span><span class="slide_brand">ECHO</span></div>
-        <h2>The Same Pattern Exists in Wealth Management</h2>
-        <p class="subtitle">In wealth advisory, the same pattern appears when clients share a <strong>CAS report</strong>.</p>
-        <p class="subtitle" style="margin-top: 16px;">A Consolidated Account Statement contains the full investment history of a client.</p>
-        <p class="subtitle" style="margin-top: 16px;">However, understanding it quickly is difficult.</p>
-        <p class="subtitle" style="margin-top: 16px;">Advisors often need time to interpret the data before they can have a meaningful conversation with the client.</p>
-        <div class="chart_container" aria-hidden="true"><canvas id="chart-03"></canvas></div>
+        <div class="slide_split_left">
+          <h2>The Same Pattern Exists in Wealth Management</h2>
+          <p class="subtitle">In wealth advisory, the same pattern appears when clients share a <strong>CAS report</strong>.</p>
+          <p class="subtitle" style="margin-top: 0;">A Consolidated Account Statement contains the full investment history of a client.</p>
+          <p class="subtitle" style="margin-top: 0;">However, understanding it quickly is difficult.</p>
+          <p class="subtitle" style="margin-top: 0;">Advisors often need time to interpret the data before they can have a meaningful conversation with the client.</p>
+        </div>
+        <div class="slide_split_right">
+          <div class="chart_container" aria-hidden="true"><canvas id="chart-03"></canvas></div>
+        </div>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -235,6 +314,13 @@
           <div class="timeline_item"><div class="timeline_no">4</div><div class="card"><p>Only then does the advisor engage the client.</p></div></div>
         </div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
     <section class="slide" id="slide_05">
@@ -251,26 +337,44 @@
         </ul>
         <div class="chart_container" aria-hidden="true"><canvas id="chart-05"></canvas></div>
       </div>
-    </section>
-
-    <section class="slide" id="slide_06">
-      <div>
-        <div class="slide_header"><span class="slide_label">006 INSIGHT</span><span class="slide_brand">ECHO</span></div>
-        <h2>The Insight</h2>
-        <p class="subtitle">What if advisors could understand the portfolio <strong>before the call begins</strong>?</p>
-        <div class="quote_box" style="margin-top: 24px;">
-          <p>If advisors could instantly interpret a CAS report, they would enter client conversations with clarity and confidence.</p>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
         </div>
-        <p class="subtitle" style="margin-top: 24px;">Instead of spending time analyzing the portfolio, they could immediately focus on advice.</p>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
-    <section class="slide" id="slide_07">
+    <section class="slide slide--split" id="slide_06">
+      <div>
+        <div class="slide_header"><span class="slide_label">006 INSIGHT</span><span class="slide_brand">ECHO</span></div>
+        <div class="slide_split_left">
+          <h2>The Insight</h2>
+          <p class="subtitle">What if advisors could understand the portfolio <strong>before the call begins</strong>?</p>
+          <p class="subtitle" style="margin-top: 0;">Instead of spending time analyzing the portfolio, they could immediately focus on advice.</p>
+        </div>
+        <div class="slide_split_right">
+          <div class="quote_box">
+            <p>If advisors could instantly interpret a CAS report, they would enter client conversations with clarity and confidence.</p>
+          </div>
+        </div>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
+    </section>
+
+    <section class="slide slide--accent-strip" id="slide_07">
       <div>
         <div class="slide_header"><span class="slide_label">007 PRODUCT</span><span class="slide_brand">ECHO</span></div>
         <h2>Introducing ECHO</h2>
         <p class="subtitle">ECHO converts any CAS report into a structured portfolio briefing in under a minute.</p>
-        <div class="flow_diagram" aria-hidden="true">
+        <div class="flow_diagram flow_diagram--prominent" aria-hidden="true">
           <span class="flow_node">Upload CAS</span><span class="flow_arrow">→</span><span class="flow_node">Analyze</span><span class="flow_arrow">→</span><span class="flow_node">Insights</span><span class="flow_arrow">→</span><span class="flow_node">Prepared</span>
         </div>
         <div class="timeline" style="margin-top: 24px;">
@@ -280,6 +384,13 @@
           <div class="timeline_item"><div class="timeline_no">4</div><div class="card card_strong"><p>The advisor enters the call prepared.</p></div></div>
         </div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
     <section class="slide" id="slide_08">
@@ -288,6 +399,13 @@
         <div class="slide_center">
           <h2 class="slide_center_heading">Demo</h2>
         </div>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -305,6 +423,13 @@
           <li><span class="bullet"></span><span>Conversation ready talking points for advisors</span></li>
         </ul>
         <p class="subtitle" style="margin-top: 24px;">This transforms a raw statement into an <strong>advisor ready briefing</strong>.</p>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -333,21 +458,39 @@
         <div class="chart_container" aria-hidden="true"><canvas id="chart-09"></canvas></div>
         <p class="subtitle" style="margin-top: 24px;">ECHO focuses on rebuilding that missing context.</p>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
-    <section class="slide" id="slide_11">
+    <section class="slide slide--split" id="slide_11">
       <div>
         <div class="slide_header"><span class="slide_label">011 INTELLIGENCE</span><span class="slide_brand">ECHO</span></div>
-        <h2>Portfolio Intelligence</h2>
-        <p class="subtitle">ECHO helps advisors understand not just the portfolio, but the story behind it.</p>
-        <div class="chart_container" aria-hidden="true"><canvas id="chart-10"></canvas></div>
-        <ul class="list" style="margin-top: 24px;">
-          <li><span class="bullet"></span><span>When did the investor enter each fund?</span></li>
-          <li><span class="bullet"></span><span>How much capital was deployed?</span></li>
-          <li><span class="bullet"></span><span>When were partial exits made?</span></li>
-          <li><span class="bullet"></span><span>What is the real return on the investor's money?</span></li>
-        </ul>
-        <p class="subtitle" style="margin-top: 24px;">These insights help advisors guide the conversation with confidence.</p>
+        <div class="slide_split_left">
+          <h2>Portfolio Intelligence</h2>
+          <p class="subtitle">ECHO helps advisors understand not just the portfolio, but the story behind it.</p>
+          <ul class="list" style="margin-top: 16px;">
+            <li><span class="bullet"></span><span>When did the investor enter each fund?</span></li>
+            <li><span class="bullet"></span><span>How much capital was deployed?</span></li>
+            <li><span class="bullet"></span><span>When were partial exits made?</span></li>
+            <li><span class="bullet"></span><span>What is the real return on the investor's money?</span></li>
+          </ul>
+          <p class="subtitle" style="margin-top: 16px;">These insights help advisors guide the conversation with confidence.</p>
+        </div>
+        <div class="slide_split_right">
+          <div class="chart_container" aria-hidden="true"><canvas id="chart-10"></canvas></div>
+        </div>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -366,6 +509,13 @@
         </ul>
         <p class="subtitle" style="margin-top: 24px;">This allows the advisor to guide the conversation toward clear next steps.</p>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
     <section class="slide" id="slide_13">
@@ -382,6 +532,13 @@
           <li><span class="bullet"></span><span>Guide clients toward the firm's investment strategy</span></li>
         </ul>
         <p class="subtitle" style="margin-top: 24px;">Instead of spending the call explaining the portfolio, the advisor can focus on advice and strategy.</p>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -403,6 +560,13 @@
           <li><span class="bullet"></span><span>Depth of portfolio discussions</span></li>
         </ul>
         <p class="subtitle" style="margin-top: 24px;">ECHO helps advisors have better client conversations — not just faster analysis.</p>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -432,6 +596,13 @@
         </div>
         <div class="chart_container" aria-hidden="true"><canvas id="chart-11"></canvas></div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
     <section class="slide" id="slide_16">
@@ -452,6 +623,13 @@
           </div>
         </div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
     <section class="slide" id="slide_17">
@@ -468,6 +646,13 @@
           <li><span class="bullet"></span><span>Once the session ends, the data disappears.</span></li>
           <li><span class="bullet"></span><span>This approach minimizes compliance concerns for wealth firms.</span></li>
         </ul>
+      </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
       </div>
     </section>
 
@@ -492,6 +677,13 @@
           <p>The goal of the pilot is not to replace your current process. The goal is to test whether this improves advisor readiness before client calls.</p>
         </div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
 
     <section class="slide" id="slide_19">
@@ -507,12 +699,21 @@
           <p>From statement to insight to conversation in under a minute.</p>
         </div>
       </div>
+      <div class="title_slide_footer">
+        <div class="title_slide_footer_row">
+          <span>7 FEB 2026</span>
+          <span>Engine for Client Holdings Overview</span>
+        </div>
+        <div class="title_slide_footer_center">FOR WEALTH ADVISORS</div>
+      </div>
     </section>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      var palette = { text: '#1a1a1a', muted: '#6b6b6b', stroke: '#e0e0e0', bg: '#fafafa' };
+      var palette = { text: '#1a1a1a', muted: '#6b6b6b', stroke: '#e0e0e0', bg: '#fafafa', accent: '#c45c5c' };
+      var chartColors = [palette.accent, palette.muted, '#4a7c59', '#5a6b9a', '#b8860b', '#8b5a7c', '#2d6b6b', '#9a5a4a'];
+      function chartColorsFor(n) { return chartColors.slice(0, n); }
       var defaultOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: palette.text } } } };
       function mergeOptions(opts, defaultOpts) {
         defaultOpts = defaultOpts || defaultOptions;
@@ -532,14 +733,14 @@
         var ctx = el.getContext('2d');
         new Chart(ctx, { type: config.type, data: config.data, options: mergeOptions(config.options) });
       }
-      makeChart('chart-02', { type: 'bar', data: { labels: ['Before', 'After'], datasets: [{ label: 'Reviews per day', data: [1, 20], backgroundColor: [palette.muted, palette.text] }] }, options: { scales: { y: { beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
-      makeChart('chart-03', { type: 'bar', data: { labels: ['Data available', 'Time to interpret'], datasets: [{ label: 'Bottleneck', data: [100, 20], backgroundColor: [palette.stroke, palette.text] }] }, options: { indexAxis: 'y', scales: { x: { max: 100, ticks: { color: palette.muted } }, y: { ticks: { color: palette.muted } } } } });
-      makeChart('chart-05', { type: 'line', data: { labels: ['CAS sent', 'Day 1', 'Analysis ready'], datasets: [{ label: 'Client engagement', data: [95, 60, 30], borderColor: palette.text, backgroundColor: 'transparent', fill: false, tension: 0.3 }] }, options: { scales: { y: { min: 0, max: 100, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
-      makeChart('chart-08', { type: 'doughnut', data: { labels: ['Allocation', 'History', 'Cash flow', 'XIRR', 'Talking points'], datasets: [{ data: [20, 20, 20, 20, 20], backgroundColor: [palette.text, palette.muted, palette.stroke, '#4a4a4a', '#9a9a9a'] }] }, options: { plugins: { legend: { position: 'right' } } } });
-      makeChart('chart-09', { type: 'bar', data: { labels: ['Current view', 'Timeline', 'XIRR'], datasets: [{ label: 'Typical systems', data: [100, 20, 10], backgroundColor: palette.muted }, { label: 'ECHO', data: [100, 100, 100], backgroundColor: palette.text }] }, options: { scales: { y: { max: 100, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
-      makeChart('chart-10', { type: 'bar', data: { labels: ['When entered', 'Capital', 'Exits', 'Real return'], datasets: [{ label: 'Story behind portfolio', data: [100, 100, 100, 100], backgroundColor: palette.text }] }, options: { indexAxis: 'y', scales: { x: { max: 100, display: false }, y: { ticks: { color: palette.muted } } } } });
-      makeChart('chart-11', { type: 'bar', data: { labels: ['Before ECHO', 'After ECHO'], datasets: [{ label: 'Time to briefing (min)', data: [1440, 1], backgroundColor: [palette.muted, palette.text] }] }, options: { scales: { y: { ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
-      makeChart('chart-14', { type: 'bar', data: { labels: ['Advisors', 'Weeks'], datasets: [{ label: 'Pilot scope', data: [25, 6], backgroundColor: [palette.text, palette.muted] }] }, options: { scales: { y: { beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-02', { type: 'bar', data: { labels: ['Before', 'After'], datasets: [{ label: 'Reviews per day', data: [1, 20], backgroundColor: chartColorsFor(2) }] }, options: { scales: { y: { beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-03', { type: 'bar', data: { labels: ['Data available', 'Time to interpret'], datasets: [{ label: 'Bottleneck', data: [100, 20], backgroundColor: chartColorsFor(2) }] }, options: { scales: { y: { max: 100, beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-05', { type: 'line', data: { labels: ['CAS sent', 'Day 1', 'Analysis ready'], datasets: [{ label: 'Client engagement', data: [95, 60, 30], borderColor: palette.accent, backgroundColor: 'transparent', fill: false, tension: 0.3, pointBackgroundColor: chartColorsFor(3), pointBorderColor: chartColorsFor(3) }] }, options: { scales: { y: { min: 0, max: 100, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-08', { type: 'doughnut', data: { labels: ['Allocation', 'History', 'Cash flow', 'XIRR', 'Talking points'], datasets: [{ data: [20, 20, 20, 20, 20], backgroundColor: chartColorsFor(5) }] }, options: { plugins: { legend: { position: 'right' } } } });
+      makeChart('chart-09', { type: 'bar', data: { labels: ['Current view', 'Timeline', 'XIRR'], datasets: [{ label: 'Typical systems', data: [100, 20, 10], backgroundColor: chartColorsFor(3) }, { label: 'ECHO', data: [100, 100, 100], backgroundColor: [chartColors[3], chartColors[4], chartColors[5]] }] }, options: { scales: { y: { max: 100, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-10', { type: 'bar', data: { labels: ['When entered', 'Capital', 'Exits', 'Real return'], datasets: [{ label: 'Story behind portfolio', data: [100, 100, 100, 100], backgroundColor: chartColorsFor(4) }] }, options: { indexAxis: 'y', scales: { x: { max: 100, display: false }, y: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-11', { type: 'bar', data: { labels: ['Before ECHO', 'After ECHO'], datasets: [{ label: 'Time to briefing (min)', data: [1440, 1], backgroundColor: chartColorsFor(2) }] }, options: { scales: { y: { ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
+      makeChart('chart-14', { type: 'bar', data: { labels: ['Advisors', 'Weeks'], datasets: [{ label: 'Pilot scope', data: [25, 6], backgroundColor: chartColorsFor(2) }] }, options: { scales: { y: { beginAtZero: true, ticks: { color: palette.muted } }, x: { ticks: { color: palette.muted } } } } });
     });
   </script>
 </body>
