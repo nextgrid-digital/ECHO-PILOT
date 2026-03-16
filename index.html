@@ -36,11 +36,10 @@
       position: relative; min-height: 100vh; height: 100vh; padding: 8vh 10vw; margin-bottom: 0;
       background: var(--bg);
       overflow: hidden;
-      display: flex; flex-direction: column; justify-content: space-between;
+      display: flex; flex-direction: column; justify-content: flex-start;
       scroll-snap-align: start; scroll-snap-stop: always;
       -webkit-scroll-snap-align: start; -webkit-scroll-snap-stop: always;
     }
-    div.slide_content { padding-top: 200px; }
     .slide_header, .slide_footer, .slide_body { position: relative; z-index: 1; }
     .slide_header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
     .slide_label { font-size: 13px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
@@ -159,7 +158,7 @@
     .design_two_col .design_item span { font-size: 15px; color: var(--muted); line-height: 1.5; }
     .design_two_col .design_why { font-size: 15px; color: var(--text); line-height: 1.6; }
     @media (max-width: 900px) { .design_two_col { grid-template-columns: 1fr; } }
-    .slide_center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 60vh; }
+    .slide_center { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; min-height: 60vh; }
     .slide_center .slide_center_heading { font-size: clamp(64px, 10vw, 120px); font-weight: 700; letter-spacing: -0.04em; color: var(--text); line-height: 1; }
     /* Title-slide style (reference: creative brief look) */
     .slide--title {
